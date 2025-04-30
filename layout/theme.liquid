@@ -2,6 +2,7 @@
 <html class="js" lang="{{ request.locale.iso_code }}">
   <head>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="{{ 'custom-fonts.css' | asset_url }}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="theme-color" content="">
@@ -257,6 +258,11 @@
 
     {{ 'base.css' | asset_url | stylesheet_tag }}
     <link rel="stylesheet" href="{{ 'component-cart-items.css' | asset_url }}" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="{{ 'theme-overrides.css' | asset_url }}">
+    <link rel="stylesheet" href="{{ 'custom-navigation.css' | asset_url }}">
+    <script src="{{ 'custom-navigation.js' | asset_url }}" defer="defer"></script>
+    <!-- Using Liquid snippet instead of JS for button -->
+    <!-- <script src="{{ 'custom-button.js' | asset_url }}" defer="defer"></script> -->
 
     {%- if settings.cart_type == 'drawer' -%}
       {{ 'component-cart-drawer.css' | asset_url | stylesheet_tag }}

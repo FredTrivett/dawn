@@ -1,0 +1,26 @@
+@font-face {
+  font-family: 'Urbanist';
+  src: url('Urbanist.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tondu';
+  src: url('Tondu.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Custom letter spacing for body text only (not headings) */
+body,
+.text-body,
+p,
+li,
+a:not(h1 a, h2 a, h3 a, h4 a, h5 a, h6 a),
+span:not(h1 span, h2 span, h3 span, h4 span, h5 span, h6 span),
+div:not(.h0, .h1, .h2, .h3, .h4, .h5) {
+  letter-spacing: 0.0275em !important; /* 2% letter spacing */
+}
