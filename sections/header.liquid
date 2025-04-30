@@ -74,6 +74,22 @@
       padding-top: 0.5rem;
     }
   }
+  
+  /* Mobile header adjustments */
+  @media screen and (max-width: 989px) {
+    .mobile-header-elements {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 1rem;
+    }
+    
+    /* Override drawer position on mobile */
+    header-drawer {
+      margin-left: 0;
+      order: 3;
+    }
+  }
 </style>
 
 {%- style -%}
@@ -129,16 +145,7 @@
     endif
   -%}
   <header class="header header--{{ section.settings.logo_position }} header--mobile-{{ section.settings.mobile_logo_position }} page-width{% if section.settings.menu_type_desktop == 'drawer' %} drawer-menu{% endif %}{% if section.settings.menu != blank %} header--has-menu{% endif %}{% if has_app_block %} header--has-app{% endif %}{% if social_links %} header--has-social{% endif %}{% if shop.customer_accounts_enabled %} header--has-account{% endif %}{% if localization_forms %} header--has-localizations{% endif %}">
-    {%- liquid
-      if section.settings.menu != blank
-        render 'header-drawer'
-      endif
-
-      if section.settings.logo_position == 'top-center' or section.settings.menu == blank
-        render 'header-search', input_id: 'Search-In-Modal-1'
-      endif
-    -%}
-
+    
     {%- if section.settings.logo_position != 'middle-center' -%}
       {%- if request.page_type == 'index' -%}
         <h1 class="header__heading">
@@ -172,6 +179,7 @@
       {%- endif -%}
     {%- endif -%}
 
+    <!-- Conditional rendering for desktop menu only (hidden on mobile) -->
     {%- liquid
       if section.settings.menu != blank
         if section.settings.menu_type_desktop == 'dropdown'
@@ -215,52 +223,16 @@
       {%- endif -%}
     {%- endif -%}
 
+    <!-- Mobile header right section with proper ordering: button, cart, burger menu -->
     <div class="header__icons{% if section.settings.enable_country_selector or section.settings.enable_language_selector %} header__icons--localization header-localization{% endif %}">
-      <!-- Wrapper for button and icons - equidistant spacing -->
-      <div class="header-icons-wrapper">
-        <!-- Custom "Essayer Zils" button - only included once -->
-        {%- render 'custom-button' -%}
+      <div class="mobile-header-elements">
+        <!-- Custom "Essayer Zils" button -->
+        <div class="mobile-button-wrapper">
+          {%- render 'custom-button' -%}
+        </div>
         
-        <!-- Icon container -->
-        <div class="header-icon-container">
-          {% render 'header-search', input_id: 'Search-In-Modal' %}
-          
-          {%- if shop.customer_accounts_enabled -%}
-            <a
-              href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
-              class="header__icon header__icon--account link focus-inset{% if section.settings.menu != blank %} small-hide{% endif %}"
-              rel="nofollow"
-            >
-              {%- if section.settings.enable_customer_avatar -%}
-                <account-icon>
-                  {%- if customer and customer.has_avatar? -%}
-                    {{ customer | avatar }}
-                  {%- else -%}
-                    <span class="svg-wrapper">{{ 'icon-account.svg' | inline_asset_content }}</span>
-                  {%- endif -%}
-                </account-icon>
-              {%- else -%}
-                <span class="svg-wrapper">{{ 'icon-account.svg' | inline_asset_content }}</span>
-              {%- endif -%}
-              <span class="visually-hidden">
-                {%- liquid
-                  if customer
-                    echo 'customer.account_fallback' | t
-                  else
-                    echo 'customer.log_in' | t
-                  endif
-                -%}
-              </span>
-            </a>
-          {%- endif -%}
-
-          {%- for block in section.blocks -%}
-            {%- case block.type -%}
-              {%- when '@app' -%}
-                {% render block %}
-            {%- endcase -%}
-          {%- endfor -%}
-
+        <!-- Cart icon -->
+        <div class="mobile-cart-wrapper">
           <a href="{{ routes.cart_url }}" class="header__icon header__icon--cart link focus-inset" id="cart-icon-bubble">
             {% if cart == empty %}
               <span class="svg-wrapper">{{ 'icon-cart-empty.svg' | inline_asset_content }}</span>
@@ -277,6 +249,79 @@
               </div>
             {%- endif -%}
           </a>
+        </div>
+
+        <!-- Burger menu -->
+        {%- if section.settings.menu != blank -%}
+          <div class="mobile-menu-drawer-wrapper">
+            {%- render 'header-drawer' -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      <!-- Desktop header elements (hidden on mobile) -->
+      <div class="desktop-header-elements hide-on-mobile">  
+        <!-- Wrapper for button and icons -->
+        <div class="header-icons-wrapper">
+          {%- render 'custom-button' -%}
+          
+          <!-- Account and cart icons -->
+          <div class="header-icon-container">
+            {% render 'header-search', input_id: 'Search-In-Modal' %}
+
+            {%- if shop.customer_accounts_enabled -%}
+              <a
+                href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
+                class="header__icon header__icon--account link focus-inset{% if section.settings.menu != blank %} small-hide{% endif %}"
+                rel="nofollow"
+              >
+                {%- if section.settings.enable_customer_avatar -%}
+                  <account-icon>
+                    {%- if customer and customer.has_avatar? -%}
+                      {{ customer | avatar }}
+                    {%- else -%}
+                      <span class="svg-wrapper">{{ 'icon-account.svg' | inline_asset_content }}</span>
+                    {%- endif -%}
+                  </account-icon>
+                {%- else -%}
+                  <span class="svg-wrapper">{{ 'icon-account.svg' | inline_asset_content }}</span>
+                {%- endif -%}
+                <span class="visually-hidden">
+                  {%- liquid
+                    if customer
+                      echo 'customer.account_fallback' | t
+                    else
+                      echo 'customer.log_in' | t
+                    endif
+                  -%}
+                </span>
+              </a>
+            {%- endif -%}
+
+            {%- for block in section.blocks -%}
+              {%- case block.type -%}
+                {%- when '@app' -%}
+                  {% render block %}
+              {%- endcase -%}
+            {%- endfor -%}
+
+            <a href="{{ routes.cart_url }}" class="header__icon header__icon--cart link focus-inset" id="desktop-cart-icon-bubble">
+              {% if cart == empty %}
+                <span class="svg-wrapper">{{ 'icon-cart-empty.svg' | inline_asset_content }}</span>
+              {% else %}
+                <span class="svg-wrapper">{{ 'icon-cart.svg' | inline_asset_content }}</span>
+              {% endif %}
+              <span class="visually-hidden">{{ 'templates.cart.cart' | t }}</span>
+              {%- if cart != empty -%}
+                <div class="cart-count-bubble">
+                  {%- if cart.item_count < 100 -%}
+                    <span aria-hidden="true">{{ cart.item_count }}</span>
+                  {%- endif -%}
+                  <span class="visually-hidden">{{ 'sections.header.cart_count' | t: count: cart.item_count }}</span>
+                </div>
+              {%- endif -%}
+            </a>
+          </div>
         </div>
       </div>
 
@@ -353,6 +398,29 @@
     }
   </script>
 {%- endif -%}
+
+<style>
+  /* Additional CSS to properly handle mobile vs desktop display */
+  @media screen and (max-width: 989px) {
+    .desktop-header-elements {
+      display: none;
+    }
+    
+    .mobile-header-elements {
+      display: flex;
+    }
+  }
+  
+  @media screen and (min-width: 990px) {
+    .mobile-header-elements {
+      display: none;
+    }
+    
+    .hide-on-mobile {
+      display: block;
+    }
+  }
+</style>
 
 {% schema %}
 {

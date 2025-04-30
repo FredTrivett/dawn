@@ -2,70 +2,56 @@
   position: initial;
 }
 
-.js menu-drawer > details > summary::before,
-.js menu-drawer > details[open]:not(.menu-opening) > summary::before {
-  content: '';
-  position: absolute;
-  cursor: default;
-  width: 100%;
-  height: calc(100vh - 100%);
-  height: calc(var(--viewport-height, 100vh) - (var(--header-bottom-position, 100%)));
-  top: 100%;
-  left: 0;
-  background: rgba(var(--color-foreground), 0.5);
-  opacity: 0;
-  visibility: hidden;
-  z-index: 2;
-  transition: opacity 0s, visibility 0s;
-}
-
-menu-drawer > details[open] > summary::before {
-  visibility: visible;
-  opacity: 1;
-  transition: opacity var(--duration-default) ease, visibility var(--duration-default) ease;
-}
-
 .menu-drawer {
   position: absolute;
-  transform: translateX(-100%);
+  transform: translateY(100%);
   visibility: hidden;
   z-index: 3;
   left: 0;
-  top: 100%;
+  bottom: -92dvh;
   width: 100%;
   padding: 0;
+  padding-bottom: 1em;
+  /* margin-top: 10em; */
   background-color: rgb(var(--color-background));
   overflow-x: hidden;
-  filter: drop-shadow(
-    var(--drawer-shadow-horizontal-offset) var(--drawer-shadow-vertical-offset) var(--drawer-shadow-blur-radius)
-      rgba(var(--color-shadow), var(--drawer-shadow-opacity))
-  );
+  border-top-left-radius: 32px;
+  border-top-right-radius: 32px;
+  -webkit-backdrop-filter: blur(5px);
+  box-shadow: 0 2px 10px rgba(var(--color-foreground), 0.08);
+  will-change: transform;
+  transition-property: transform, visibility;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .js .menu-drawer {
-  height: calc(100vh - 100%);
-  height: calc(var(--viewport-height, 100vh) - (var(--header-bottom-position, 100%)));
+  height: 72dvh;
+  padding-bottom: env(safe-area-inset-bottom, 85px);
 }
 
 .js details[open] > .menu-drawer,
 .js details[open] > .menu-drawer__submenu {
-  transition: transform var(--duration-default) ease, visibility var(--duration-default) ease;
+  transition-property: transform, visibility !important;
+  transition-duration: 300ms !important;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 .js details[open].menu-opening > .menu-drawer,
 details[open].menu-opening > .menu-drawer__submenu {
-  transform: translateX(0);
+  transform: translateY(0);
   visibility: visible;
 }
 
 .js .menu-drawer__navigation .submenu-open {
-  visibility: hidden; /* hide menus from screen readers when hidden by submenu */
+  visibility: hidden;
 }
 
 @media screen and (min-width: 750px) {
   .menu-drawer {
-    width: 40rem;
-    border-width: 0 var(--drawer-border-width) 0 0;
+    width: 100%;
+    border-width: 0;
+    border-top-width: var(--drawer-border-width);
     border-style: solid;
     border-color: rgba(var(--color-foreground), var(--drawer-border-opacity));
   }
@@ -73,7 +59,8 @@ details[open].menu-opening > .menu-drawer__submenu {
 
 .menu-drawer__inner-container {
   position: relative;
-  height: 100%;
+  height: 96%;
+  padding-top: 2rem;
 }
 
 .menu-drawer__navigation-container {

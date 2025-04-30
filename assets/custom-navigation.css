@@ -213,6 +213,31 @@ details[open]:hover > .header__menu-item,
   max-width: none;
 }
 
+/* Mobile header elements styling */
+.mobile-header-elements {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.mobile-button-wrapper, 
+.mobile-cart-wrapper, 
+.mobile-menu-drawer-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+/* Mobile menu drawer styles */
+.mobile-menu-drawer-wrapper header-drawer {
+  margin-left: 0;
+}
+
+/* Mobile menu drawer button position */
+.mobile-menu-drawer-wrapper .header__icon--menu {
+  padding: 0.5rem;
+}
+
 /* Responsive adjustments */
 @media screen and (max-width: 989px) {
   /* For mobile and tablet views */
@@ -225,15 +250,15 @@ details[open]:hover > .header__menu-item,
   
   .header {
     padding: 0.75rem 1rem !important; /* Less padding on mobile */
-    grid-template-columns: auto 1fr auto; /* Drawer button, logo, cart icon */
-    grid-column-gap: 1rem; /* Smaller gap on mobile */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
   
-  /* Adjust logo positioning on mobile */
+  /* Logo on the left side */
   .header__heading {
-    grid-column: 2; /* Center position on mobile */
-    justify-self: center; /* Center on mobile */
-    text-align: center;
+    flex: 0 0 auto;
+    margin-right: auto;
   }
   
   /* Adjust logo size on mobile */
@@ -241,26 +266,34 @@ details[open]:hover > .header__menu-item,
     transform: scale(1.05); /* Slightly smaller increase on mobile */
   }
   
+  /* Hide desktop-only elements */
+  .desktop-header-elements,
   .header__inline-menu {
-    display: none; /* Hide regular menu on mobile */
+    display: none;
   }
   
-  .header__inline-menu .list-menu--inline {
-    display: none; /* The dropdown menu will be handled by the drawer menu on mobile */
+  /* Mobile header right section with ordered elements: button, cart, burger menu */
+  .mobile-header-elements {
+    gap: 1rem;
   }
   
-  /* Menu button on mobile */
-  header-drawer {
-    display: block !important;
-    justify-self: start;
-    grid-column: 1; /* First position on mobile */
+  /* Smaller button on mobile */
+  .mobile-button-wrapper .try-zils-button {
+    padding: 0.5em 1.1em;
+    font-size: 0.95em;
   }
   
-  /* Cart icon on mobile */
-  .header__icons {
-    grid-column: 3; /* Last position on mobile */
-    justify-self: end;
-    margin-left: 0;
+  /* Smaller icon sizes on mobile */
+  .mobile-cart-wrapper .svg-wrapper,
+  .mobile-menu-drawer-wrapper .svg-wrapper {
+    width: 24px;
+    height: 24px;
+  }
+  
+  /* Ensure the cart counter is properly positioned */
+  .mobile-cart-wrapper .cart-count-bubble {
+    top: -5px;
+    right: -5px;
   }
 }
 
@@ -366,6 +399,17 @@ main {
 .header__icon:hover::after {
   width: 60%;
   left: 20%;
+}
+
+/* Remove hover line effect specifically from burger menu icon */
+.header__icon--menu::after,
+.mobile-menu-drawer-wrapper .header__icon::after {
+  display: none !important;
+}
+
+.header__icon--menu:hover::after,
+.mobile-menu-drawer-wrapper .header__icon:hover::after {
+  width: 0 !important;
 }
 
 /* Cart count bubble styling */
@@ -492,20 +536,33 @@ main {
     gap: 0.6em;
   }
   
-  /* Smaller button on mobile */
+  /* Bigger button on mobile */
   .try-zils-button {
-    padding: 0.4em 1em;
-    font-size: 0.85em;
+    padding: 0.6em 1.4em;
+    font-size: 1.1em;
   }
   
-  /* Slightly smaller arrow on mobile */
+  /* Adjust arrow size proportionally */
   .try-zils-button .arrow-icon {
-    width: 10px;
-    height: 10px;
+    width: 12px;
+    height: 12px;
   }
   
   /* Still preserve the gap between the icons */
   .header-icon-container {
     gap: 0.3em;
+  }
+}
+
+/* Hide desktop elements on mobile and vice versa */
+@media screen and (max-width: 989px) {
+  .desktop-header-elements {
+    display: none !important;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .mobile-header-elements {
+    display: none !important;
   }
 } 
