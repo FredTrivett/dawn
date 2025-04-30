@@ -1,0 +1,23 @@
+/* Theme overrides for custom fonts and letter spacing */
+
+/* Body text letter spacing */
+html body {
+  letter-spacing: 0.0275em !important;
+}
+
+/* Target common body text elements */
+html body p,
+html body .rte p,
+html body li,
+html body .text-body,
+html body .announcement-bar__message,
+html body .product__info-container,
+html body .price,
+html body .product__description,
+html body .cart-item,
+html body .field__input,
+html body .form__label,
+html body .footer__content-top,
+html body .caption-with-letter-spacing {
+  letter-spacing: 0.0275em !important;
+}

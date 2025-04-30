@@ -1,0 +1,511 @@
+/* Custom Navigation Styling */
+
+/* Make the header fixed at the top */
+.section-header {
+  position: fixed !important;
+  top: 20px; /* Add space at the top */
+  left: 20px; /* Consistent side spacing */
+  right: 20px; /* Consistent side spacing */
+  z-index: 100;
+}
+
+/* Add space for content to prevent it from being hidden under fixed header */
+body {
+  padding-top: 0; 
+}
+
+/* Make the entire header wrapper a pill shape */
+.header-wrapper {
+  border-radius: 9999px; /* Full rounded for pill shape */
+  background-color: rgba(var(--color-background), 0.95);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  box-shadow: 0 2px 10px rgba(var(--color-foreground), 0.08);
+  padding: 0; /* Remove wrapper padding */
+  width: 100%; /* Full width of the container */
+  margin: 0; /* Remove auto margins */
+}
+
+/* Ensure the header has appropriate spacing */
+.header {
+  padding: 1rem 4rem !important; /* Adjust padding inside the header */
+  border-radius: 9999px; /* Ensure all contents respect the rounded pill */
+  display: grid;
+  grid-template-columns: auto auto 1fr; /* Logo, menu, remaining space */
+  grid-column-gap: 4rem; /* Gap between logo and menu */
+  align-items: center;
+}
+
+/* Position elements in the header grid */
+.header__heading {
+  grid-column: 1;
+  justify-self: start; /* Align logo to the left */
+  margin: 0;
+  text-align: left;
+}
+
+.header__inline-menu {
+  grid-column: 2;
+  justify-self: start; /* Align menu to the left */
+}
+
+.header__icons {
+  grid-column: 3;
+  justify-self: end; /* Align icons to the right */
+  margin-left: auto; /* Push to the far right */
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+}
+
+/* Reset the pill-nav styling since we're making the whole header a pill */
+.custom-pill-nav {
+  background-color: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Style the menu items */
+.header__inline-menu .list-menu__item {
+  padding: 0.75rem 1.5rem !important; /* Adjust padding for menu items */
+  position: relative;
+  border-radius: 9999px;
+  font-size: 1em; /* Increase menu text size */
+}
+
+/* Also set font size for menu item spans and links */
+.header__inline-menu .list-menu__item span,
+.header__inline-menu .list-menu__item a {
+  font-size: 1em; /* Increase menu text size */
+}
+
+/* Active menu item style - make semibold for current page */
+.header__active-menu-item {
+  text-decoration: none;
+  font-weight: 400; /* Semibold for variable font */
+}
+
+/* More aggressive styling for active/current menu items */
+.header__active-menu-item,
+.header__menu-item[aria-current="page"],
+.header__menu-item span.header__active-menu-item,
+.list-menu__item[aria-current="page"],
+.list-menu__item[aria-current="page"] span,
+a.list-menu__item[aria-current="page"],
+a.header__menu-item[aria-current="page"],
+.header__inline-menu a[aria-current="page"],
+.header__inline-menu .header__active-menu-item,
+.header__inline-menu li:has(> a[aria-current="page"]) a,
+[aria-current="page"] {
+  font-weight: 600 !important; /* Force bold weight with high specificity */
+  font-variation-settings: 'wght' 600 !important; /* For variable fonts */
+}
+
+/* Target the specific menu structure more precisely */
+.header__inline-menu .list-menu--inline > li > a[aria-current="page"],
+.header__inline-menu .list-menu--inline > li > a > span.header__active-menu-item {
+  font-weight: 600 !important;
+  font-variation-settings: 'wght' 600 !important;
+}
+
+/* Override any potential theme styles */
+html body .header__inline-menu a[aria-current="page"],
+html body .header__inline-menu .header__active-menu-item {
+  font-weight: 600 !important;
+  font-variation-settings: 'wght' 600 !important;
+}
+
+/* Override previous hover effect disabling for the specific underline effect we want */
+.header__menu-item,
+.header__menu-item span,
+.header__menu-item a {
+  position: relative;
+  transition: none !important;
+}
+
+/* Create the custom underline hover effect - only on parent menu items */
+.list-menu__item::after {
+  content: '';
+  position: absolute;
+  left: 20%;
+  right: 20%;
+  bottom: 0px; /* Position the line higher (6px higher than before) */
+  width: 0;
+  height: 2px;
+  background-color: currentColor;
+  border-radius: 999px; /* More rounded corners on the line */
+  transition: width 0.3s ease !important;
+  opacity: 0.8;
+  margin: 0 auto;
+}
+
+/* Show the underline ONLY on hover - not for current page */
+.list-menu__item:hover::after {
+  width: 60%; /* Line width is 60% of the menu item width, centered */
+  left: 20%;
+}
+
+/* Make sure submenu items don't get the effect */
+.header__submenu .header__menu-item::after {
+  display: none;
+}
+
+/* Update overrides to allow our specific hover effect */
+.header__menu-item:hover,
+.header__menu-item:hover span,
+.header__submenu .header__menu-item:hover,
+details[open]:hover > .header__menu-item,
+.header__menu-item:hover .header__active-menu-item,
+.header__icon:hover .icon {
+  /* Disable all hover effects except for our custom one */
+  background-color: transparent !important;
+  color: inherit !important;
+  transform: none !important;
+  text-decoration: none !important;
+  opacity: 1 !important;
+}
+
+/* Style for dropdown menus */
+.header__submenu {
+  border-radius: 12px;
+  background-color: rgba(var(--color-background), 0.95);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  box-shadow: 0 4px 15px rgba(var(--color-foreground), 0.1);
+  margin-top: 0.5rem;
+  min-width: 200px;
+}
+
+.header__submenu .header__menu-item {
+  padding: 0.75rem 1.5rem;
+  border-radius: 0;
+}
+
+.header__submenu .header__menu-item:first-child {
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.header__submenu .header__menu-item:last-child {
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+/* Logo adjustments */
+.header__heading-link {
+  display: flex;
+  align-items: center;
+}
+
+/* Make the logo 10% bigger */
+.header__heading-logo-wrapper {
+  transform: scale(1.1); /* Increase size by 10% */
+}
+
+.header__heading-logo {
+  width: 110%; /* Alternative way to increase size by 10% */
+  height: auto;
+  max-width: none;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 989px) {
+  /* For mobile and tablet views */
+  .section-header {
+    top: 10px; /* Less top spacing on mobile */
+    left: 10px; /* Less side spacing on mobile */
+    right: 10px; /* Less side spacing on mobile */
+    width: calc(100% - 20px); /* Account for left/right spacing */
+  }
+  
+  .header {
+    padding: 0.75rem 1rem !important; /* Less padding on mobile */
+    grid-template-columns: auto 1fr auto; /* Drawer button, logo, cart icon */
+    grid-column-gap: 1rem; /* Smaller gap on mobile */
+  }
+  
+  /* Adjust logo positioning on mobile */
+  .header__heading {
+    grid-column: 2; /* Center position on mobile */
+    justify-self: center; /* Center on mobile */
+    text-align: center;
+  }
+  
+  /* Adjust logo size on mobile */
+  .header__heading-logo-wrapper {
+    transform: scale(1.05); /* Slightly smaller increase on mobile */
+  }
+  
+  .header__inline-menu {
+    display: none; /* Hide regular menu on mobile */
+  }
+  
+  .header__inline-menu .list-menu--inline {
+    display: none; /* The dropdown menu will be handled by the drawer menu on mobile */
+  }
+  
+  /* Menu button on mobile */
+  header-drawer {
+    display: block !important;
+    justify-self: start;
+    grid-column: 1; /* First position on mobile */
+  }
+  
+  /* Cart icon on mobile */
+  .header__icons {
+    grid-column: 3; /* Last position on mobile */
+    justify-self: end;
+    margin-left: 0;
+  }
+}
+
+/* Fix the spacing for the main content area */
+main {
+  display: block;
+  position: relative;
+  margin-top: 0; /* Add space below the header for content */
+}
+
+@media screen and (max-width: 989px) {
+  main {
+    margin-top: 0; /* Less space on mobile */
+  }
+}
+
+/* Add JavaScript to force the bold weight */
+.custom-navigation-script {
+  display: none;
+}
+
+.header::after {
+  content: '';
+  display: none;
+}
+
+/* JavaScript to be added to theme.liquid or through Shopify's customizer */
+@media screen {
+  body::after {
+    content: '';
+    display: none;
+  }
+}
+
+/* Custom icon styling */
+/* Hide the search icon */
+.header__search {
+  display: none !important;
+}
+
+/* Custom icon styling for account and cart */
+.header__icon--account .svg-wrapper svg {
+  display: none;
+}
+
+.header__icon--account .svg-wrapper::after {
+  content: '';
+  display: block;
+  width: 28px;
+  height: 28px;
+  background-image: url('account.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.header__icon--cart .svg-wrapper svg {
+  display: none;
+}
+
+.header__icon--cart .svg-wrapper::after {
+  content: '';
+  display: block;
+  width: 28px;
+  height: 28px;
+  background-image: url('cart.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.header__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  position: relative; /* Required for the hover line positioning */
+}
+
+.header__icon .svg-wrapper {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Add the same hover line effect to icons as menu items */
+.header__icon::after {
+  content: '';
+  position: absolute;
+  left: 20%;
+  right: 20%;
+  bottom: 0px;
+  width: 0;
+  height: 2px;
+  background-color: currentColor;
+  border-radius: 999px;
+  transition: width 0.3s ease !important;
+  opacity: 0.8;
+  margin: 0 auto;
+}
+
+/* Show the underline on hover */
+.header__icon:hover::after {
+  width: 60%;
+  left: 20%;
+}
+
+/* Cart count bubble styling */
+.cart-count-bubble {
+  position: absolute;
+  top: -0.2rem;
+  right: -0.2rem;
+  font-size: 0.8rem;
+  min-width: 1.2rem;
+  min-height: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  z-index: 2; /* Ensure it's above the hover line */
+}
+
+/* Custom "Essayer Zils" button */
+.try-zils-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.4em 1.6em;
+  background-color: rgba(var(--color-button), 1);
+  color: rgb(var(--color-button-text));
+  border-radius: 999px; /* Fully rounded borders */
+  font-weight: 400 !important; /* Force lighter text weight */
+  transition: opacity 0.2s ease; /* Simple hover effect */
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 0.95em;
+  white-space: nowrap;
+  box-shadow: 0 2px 5px rgba(var(--color-foreground), 0.1);
+  position: relative; /* For hover line effect */
+  letter-spacing: 0.04em !important; /* Fixed letter spacing syntax */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Consistent button hover effect */
+.try-zils-button:hover {
+  opacity: 0.95;
+  box-shadow: 0 2px 5px rgba(var(--color-foreground), 0.15);
+}
+
+/* Arrow icon within the button - optimized */
+.try-zils-button .arrow-icon {
+  width: 12px;
+  height: 12px;
+  background-image: url('arrow.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: inline-block;
+  position: relative;
+  will-change: transform, opacity; /* Performance optimization */
+  transform: translateZ(0); /* Hardware acceleration trigger */
+  -webkit-backface-visibility: hidden; /* Prevents flickering */
+  backface-visibility: hidden;
+}
+
+/* Ultra-fast arrow animation - optimized for performance */
+@keyframes arrow-diagonal-travel {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+  24% {
+    opacity: 1;
+    transform: translate(15px, -15px);
+  }
+  25% {
+    opacity: 0;
+    transform: translate(15px, -15px);
+  }
+  26% {
+    opacity: 0;
+    transform: translate(-15px, 15px);
+  }
+  27% {
+    opacity: 1;
+    transform: translate(-15px, 15px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
+/* Apply the animation on hover - with performance optimizations */
+.try-zils-button:hover .arrow-icon {
+  animation: arrow-diagonal-travel 0.25s linear forwards;
+  transform: none;
+}
+
+/* Prevent animation flickering in Safari */
+@media not all and (min-resolution:.001dpcm) { 
+  @supports (-webkit-appearance:none) {
+    .try-zils-button .arrow-icon {
+      transform: translateZ(0);
+    }
+  }
+}
+
+/* Wrapper for button and icons - equidistant spacing */
+.header-icons-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: auto;
+  gap: 1em; /* Consistent spacing between elements */
+}
+
+/* Container for account and cart icons */
+.header-icon-container {
+  display: flex;
+  align-items: center;
+  gap: 0.4em; /* Maintain existing gap between icons */
+}
+
+/* Mobile responsive adjustments for the icons wrapper */
+@media screen and (max-width: 989px) {
+  .header-icons-wrapper {
+    gap: 0.6em;
+  }
+  
+  /* Smaller button on mobile */
+  .try-zils-button {
+    padding: 0.4em 1em;
+    font-size: 0.85em;
+  }
+  
+  /* Slightly smaller arrow on mobile */
+  .try-zils-button .arrow-icon {
+    width: 10px;
+    height: 10px;
+  }
+  
+  /* Still preserve the gap between the icons */
+  .header-icon-container {
+    gap: 0.3em;
+  }
+} 

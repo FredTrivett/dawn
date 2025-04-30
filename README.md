@@ -1,3 +1,20 @@
+# Dev
+Launch dev environment
+```sh
+shopify theme dev
+```
+
+Publish theme to live store
+```sh
+shopify theme push
+```
+
+Pull Live store changes
+```sh 
+shopify theme pull
+```
+
+
 # Dawn
 
 [![Build status](https://github.com/shopify/dawn/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Shopify/dawn/actions/workflows/ci.yml?query=branch%3Amain)
