@@ -204,7 +204,7 @@ details[open]:hover > .header__menu-item,
 
 /* Make the logo 10% bigger */
 .header__heading-logo-wrapper {
-  transform: scale(1.1); /* Increase size by 10% */
+  transform: scale(0.7); /* Increase size by 10% */
 }
 
 .header__heading-logo {
@@ -242,10 +242,11 @@ details[open]:hover > .header__menu-item,
 @media screen and (max-width: 989px) {
   /* For mobile and tablet views */
   .section-header {
-    top: 10px; /* Less top spacing on mobile */
-    left: 10px; /* Less side spacing on mobile */
-    right: 10px; /* Less side spacing on mobile */
-    width: calc(100% - 20px); /* Account for left/right spacing */
+    top: 0px; /* Less top spacing on mobile */
+    left: 0px; /* Less side spacing on mobile */
+    right: 0px; /* Less side spacing on mobile */
+    width: 100%; /* Account for left/right spacing */
+
   }
   
   .header {
@@ -253,6 +254,14 @@ details[open]:hover > .header__menu-item,
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+  }
+
+  .header-wrapper {
+    border-radius: 20px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+
   }
   
   /* Logo on the left side */
@@ -263,7 +272,7 @@ details[open]:hover > .header__menu-item,
   
   /* Adjust logo size on mobile */
   .header__heading-logo-wrapper {
-    transform: scale(1.05); /* Slightly smaller increase on mobile */
+    transform: scale(0.8); /* Slightly smaller increase on mobile */
   }
   
   /* Hide desktop-only elements */
