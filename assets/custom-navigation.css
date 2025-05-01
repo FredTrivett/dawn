@@ -242,7 +242,7 @@ details[open]:hover > .header__menu-item,
 @media screen and (max-width: 989px) {
   /* For mobile and tablet views */
   .section-header {
-    top: 0px; /* Less top spacing on mobile */
+    top: -1px; /* Less top spacing on mobile */
     left: 0px; /* Less side spacing on mobile */
     right: 0px; /* Less side spacing on mobile */
     width: 100%; /* Account for left/right spacing */
